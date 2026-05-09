@@ -46,8 +46,21 @@ file download, no command line.
 3. Go to **claude.ai** → click **Projects** in the left sidebar → **Create project**.
 4. Give it a name like **"Expat Stories"**, click create.
 5. After the project opens, look on the **right side** of the project page for the **"Instructions"** field — paste the SKILL.md content you copied and save.
-6. Start a new chat inside the project. Type something like:
-   > *Generate one — Werner, 67, German, Thailand, returned after 6 years.*
+6. Start a new chat inside the project. Type whichever fits — the skill scales
+   from "barely any params" to "fully specified":
+
+   | Level | What you type | What you get |
+   |---|---|---|
+   | **L1** | *Quick demo of an expat who returned from Thailand.* | ~400 words, skill invents the protagonist |
+   | **L2** | *Werner, 67, German, returned from Thailand after 6 years.* | ~2500 words; secondary details auto-proposed |
+   | **L3** | *Short German version: Werner, 67, German, returned from Thailand after 6 years.* | ~1200 words, in German |
+   | **L4** | *Short version, audience: DACH retirees. Werner, 67, retired Bavarian engineer, Hua Hin, 2019→2025, lost €120k.* | targeted; skips confirmation round |
+   | **L5** | *Werner Bachmann, 67, retired mechanical engineer from Bavaria, widowed 2018, €1,800/month + €290k house sale. Hua Hin 2019→2025, lost €120k. Long version, English, 14 frictions.* | ~4000 words, every knob explicit |
+   | **L6** | *Same as Werner but he stayed instead of returning. Demo length.* | flips the moral arc — different story entirely |
+
+   Trigger phrases for the duration preset: `quick demo` / `tldr` / `short version` /
+   `30-second version` → demo; `long version` / `long-form` → long; nothing → medium.
+
 7. Claude reads the project instructions and produces the full story in the chat.
 
 Re-use the same project for every future story — just start another chat.
