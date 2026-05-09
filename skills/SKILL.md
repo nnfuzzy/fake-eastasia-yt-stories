@@ -62,9 +62,24 @@ When the user asks for an expat retrospective story:
 5. **Compute timestamps yourself** at ~150 words per minute, cumulatively. Chapter 1 starts at
    `00:00`; chapter N's timestamp is the sum of word counts of chapters 1..N-1 divided by 150,
    converted to MM:SS. Round to the nearest second.
-6. **Stat discipline.** Do **not** invent statistics. Where a real number would have to be
-   fabricated (national death rates, exchange rate movements, average insurance premiums), write
-   `[STAT-NEEDED]` so a fact-check pass can fill it.
+6. **Stat discipline (strict).** **Any** of the following must be written as `[STAT-NEEDED]`
+   unless the user gave you the exact figure in the prompt:
+   - Visa requirements (deposit amounts, fee schedules, days-allowed, frequencies)
+   - Exchange rates and their historical movements
+   - Insurance premiums, deductibles, coverage caps
+   - Hospital bills, medical procedure costs
+   - Government fees, taxes, fines (general — not the one assessed in your fictional anecdote)
+   - National statistics: road-death rates, crime rates, life expectancy, AQI averages
+   - Inflation rates, unemployment rates, GDP figures
+   - Historical event dates (coup attempts, currency events) — use the year only
+
+   This rule is **not optional**. Even if a number "feels like context", if it's a real-world
+   measurable quantity that a fact-checker would have to verify, write `[STAT-NEEDED]`. Numbers
+   you **may** invent freely (because they are fictional, not measurable):
+   - Specific anecdote amounts a named friend paid (€3,500, €110,000) — these are characters'
+     stories, not stats.
+   - The protagonist's own pension, rent, savings, electricity bill (these are *parameters* of
+     the scenario, fictional by definition).
 7. **Voice.** First-person, past tense, reflective, lightly cautionary, never sensational.
    No "as an AI". No moralizing. Local-color words (Baht, Hua Hin, monsoon, Notruf) are fine
    on first use.
@@ -113,12 +128,27 @@ The single most important knob is `outcome` — it flips the moral arc of the st
 2. **The dream (chapter 1)** — why `target_country` seemed like the answer. Sensory detail
    with real numbers in `currency` (rent, meal price, utility, transport).
 3. **The unraveling (chapters 2 to num_problems+1)** — exactly `num_problems` concrete
-   frictions, one chapter each, picked from the friction taxonomy below. **Each must include
-   one named anecdote**: a friend or neighbor with a name (Manfred, Klaus, Stefan, Hans, Luc,
-   Gerhard…), a specific number in `currency`, and a specific outcome.
+   frictions, one chapter each, picked from the friction taxonomy below.
+
+   **Named-anecdote precondition (hard rule).** Before you write each friction chapter's body,
+   first decide:
+   - **Who** is the named character? (a name like Manfred, Klaus, Stefan, Hans, Luc, Gerhard,
+     Bernd, Friedrich, Somchai — vary across chapters; never reuse a name)
+   - **What number** in `currency` does the anecdote turn on? (the visa fine they paid, the
+     savings they lost, the hospital bill, the marriage settlement)
+   - **What outcome** befell them? (deportation, bankruptcy, divorce, return home, death)
+
+   **If you cannot fill all three, drop this friction and pick a different one from the
+   taxonomy.** A friction chapter with no named character is broken — the genre depends on the
+   "I knew someone who…" frame. Loneliness, homesickness, and abstract-feeling frictions
+   especially must be grounded in a named person and a specific incident, not a generic vibe.
 4. **Turning point (penultimate chapter)** — the exact moment the protagonist decided.
 5. **Return / resolution / continuation (final chapter)** — depending on `outcome`.
-6. **Closing advice** — 3 to 5 concrete rules, after the chapter list.
+6. **Closing advice** — concrete rules after the chapter list. Count by `duration`:
+   - `demo`: **exactly 3** rules
+   - `short`: 3 or 4
+   - `medium`: 4 or 5
+   - `long`: exactly 5
 
 ---
 
@@ -172,8 +202,8 @@ end. Use this template literally — do not add sections, summaries, or commenta
 - {rule 1 — concrete, actionable, one sentence}
 - {rule 2}
 - {rule 3}
-- {rule 4 — optional}
-- {rule 5 — optional}
+- {rule 4 — required for medium/long, optional for short, omit for demo}
+- {rule 5 — required for long, optional for medium, omit for short and demo}
 ```
 
 Notes:
