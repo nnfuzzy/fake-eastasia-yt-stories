@@ -186,39 +186,96 @@ Notes:
 
 ---
 
-## Worked examples
+## Worked examples (minimal → maximal)
 
-### Long-form
+A ladder from "barely any params" to "everything specified". Match whichever
+the user's request resembles.
 
-User says:
-> *"Generate one — Werner, 67, German, Thailand, returned after 6 years."*
-
-You should:
-
-1. **Confirm inferred defaults briefly:**
-   "I'll fill in: Bavaria, retired mechanical engineer, widowed in 2018, €1,800/month pension
-   + €290k from selling the house, EUR, `duration: medium` (2500 words / 10 frictions),
-   English. Proceed?"
-2. **Generate** the full ~2500-word story in the format above on the next turn (or immediately
-   if the user said "just go").
-3. **Mark stats** with `[STAT-NEEDED]` rather than inventing exchange-rate or insurance numbers.
-
-### Quick demo
+### Level 1 — almost nothing
 
 User says:
-> *"Quick demo — Petra, Austrian tax advisor, Lisbon, stayed."*
+> *"Quick demo of an expat who returned from Thailand."*
+
+Given: `target_country=Thailand`, `outcome=returned`, `duration=demo`
+(triggered by "quick demo"). Everything else invented.
 
 You should:
+- Invent a plausible protagonist (German retiree is the genre default; pick a
+  name like Werner / Helmut / Klaus). Announce the invented profile in one line:
+  "Working with: Werner Bachmann, 67, Bavarian engineer, widowed, 6 years in
+  Hua Hin, lost €120k. Demo length."
+- Generate the ~400-word demo immediately. No second confirmation round.
 
-1. **Pick `duration: demo` automatically** (because of "quick demo"). That means ~400 words /
-   3 frictions. Skip the parameter-confirmation back-and-forth — just announce the assumed
-   defaults in one line and generate immediately.
-2. **Pick the 3 most plausible frictions** from the taxonomy for an Austrian in Lisbon:
-   bureaucracy, two-tier pricing, language barrier — *not* over-70s healthcare or romance
-   asymmetry.
-3. **Hook**: 1 short paragraph (60–100 words). **Chapters**: 3 frictions + 1 turning point +
-   1 resolution = 5 chapters total. **Advice**: 3 rules. The whole reply should be readable
-   in under 3 minutes.
+### Level 2 — protagonist basics
+
+User says:
+> *"Werner, 67, German, returned from Thailand after 6 years."*
+
+Given: `name=Werner`, `age=67`, `origin_country=Germany`,
+`target_country=Thailand`, `outcome=returned`, `duration_years=6`.
+No length specified → `duration=medium`. Everything else invented.
+
+You should:
+- Propose secondary defaults in one line ("I'll fill in: Bavaria, retired
+  mechanical engineer, widowed, €1,800/month + €290k house sale, EUR, English,
+  Hua Hin, 12 frictions, 2500 words.") and generate.
+
+### Level 3 — add length and language
+
+User says:
+> *"Short German version: Werner, 67, German, returned from Thailand after 6 years."*
+
+Given: `duration=short`, `language=de`, plus the Level 2 params.
+→ 1200 words, 6 frictions, in German.
+
+You should:
+- Generate the German-language story immediately. Use German cultural reference
+  points (Bavaria, S-Bahn, Notruf). Same six-act arc, just translated.
+
+### Level 4 — add destination details and audience
+
+User says:
+> *"Short version, audience: DACH retirees: Werner, 67, retired Bavarian engineer,
+> moved to Hua Hin in 2019, returned in 2025 with €120k less."*
+
+Given: Level 3 + `occupation=retired Bavarian engineer`, `target_city=Hua Hin`,
+`arrival_year=2019`, `net_cost_or_gain=-€120,000`, `duration_years=6` (derived
+from 2019→2025), `audience=DACH retirees`. Tone tightens for the audience.
+
+You should:
+- Skip the confirmation. All required params + most secondaries are present.
+- Pick frictions especially relevant for Bavarian retirees: visa, healthcare-at-70+,
+  two-tier pricing, language barrier, missed family milestones.
+
+### Level 5 — fully specified
+
+User says:
+> *"Werner Bachmann, 67, retired mechanical engineer from Bavaria, widowed
+> in 2018, €1,800/month pension + €290k from selling the family house. Moved to
+> Hua Hin in 2019, returned in 2025 with €120k less. Long version, English,
+> 14 frictions, audience: DACH retirees considering Southeast Asia."*
+
+Given: every parameter explicitly. `word_count` is derived from `duration=long`
+(4000), but `num_problems` is overridden to 14.
+
+You should:
+- No confirmation, no invention. Generate the full 4000-word story with exactly
+  14 friction chapters in the format above. Use `[STAT-NEEDED]` for any number
+  not provided in the prompt.
+
+### Level 6 — vary the outcome
+
+User says:
+> *"Same as Werner but he stayed instead of returning. Demo length."*
+
+Given: previous context (if any) + `outcome=stayed` override + `duration=demo`.
+
+You should:
+- Flip the moral arc: instead of "I should have known" cautionary, write "the
+  friction is the price of the dividend" mixed-verdict tone.
+- The turning point chapter becomes "why I stayed", not "why I left".
+- The closing advice shifts from "don't do this" to "be honest about the
+  trade-off".
 
 ---
 
