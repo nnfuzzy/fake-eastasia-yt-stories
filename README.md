@@ -211,6 +211,40 @@ short.
 **Length cap.** Gemini TTS truncates very long inputs. Stories above ~2,500
 words may clip — generate in chunks or shorten with `--words 1500`.
 
+### Bridge — audio for a script the Claude skill produced
+
+The Claude skill (claude.ai Project) outputs a *timed Markdown script* but
+**not real audio** — Claude has no Gemini TTS access from inside the chat.
+If you've iterated on a story in claude.ai and now want it spoken without
+re-generating the text, use the bridge task:
+
+```bash
+# 1. Copy the voiceover_script Claude produced into a file
+pbpaste > /tmp/werner-script.txt
+
+# 2. Synthesize — only calls Gemini TTS, no LLM text call
+deno task tts /tmp/werner-script.txt
+# → /tmp/werner-script.wav
+```
+
+You can also point at a `.json` produced by `deno task story --audio`; the
+task reads the `voiceover_script` field automatically.
+
+```bash
+deno task tts out/jonas-bali.json --out out/jonas-bali-redo.wav
+```
+
+Flags: `--narrator <voice>` (default `Charon`), `--character <voice>`
+(default `Kore`), `--out <path>` (default sibling `.wav`).
+
+### Three ways to actually get audio
+
+|   | When to use |
+|---|---|
+| **`deno task story … --audio`** (full pipeline) | First-time generation, want text + audio in one shot |
+| **`deno task tts <script>`** (this bridge) | You already have a script (from Claude.ai or a prior run) and want only the TTS leg — ~half the cost vs. re-running |
+| **External TTS** (ElevenLabs, OpenAI voices, macOS `say`) | You want a different voice / language / quality than Gemini provides |
+
 ---
 
 ## Timestamps

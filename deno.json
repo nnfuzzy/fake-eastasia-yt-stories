@@ -1,11 +1,12 @@
 {
   "tasks": {
     "story": "deno run -A cli.ts",
+    "tts": "deno run -A tts.ts",
     "test": "deno test -A tests/",
     "test:watch": "deno test -A --watch tests/",
     "fmt": "deno fmt",
     "lint": "deno lint",
-    "check": "deno fmt --check && deno lint && deno check cli.ts"
+    "check": "deno fmt --check && deno lint && deno check cli.ts tts.ts"
   },
   "imports": {
     "genkit": "npm:genkit@^1.0.0",
