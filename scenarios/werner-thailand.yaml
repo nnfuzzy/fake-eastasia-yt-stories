@@ -1,0 +1,23 @@
+protagonist:
+  name: Werner Bachmann
+  age: 67
+  gender: male
+  origin_country: Germany
+  origin_region: Bavaria
+  occupation: retired mechanical engineer
+  trigger_event: widowed after long marriage; sold paid-off house to start over
+  financials: "€1,800/month pension + €290k from selling paid-off house"
+  languages: [German, English]
+
+journey:
+  target_country: Thailand
+  target_city: Hua Hin
+  duration_years: 6
+  arrival_year: 2019
+  outcome: returned
+  net_cost_or_gain: "-€120,000"
+  currency: EUR
+
+audience: DACH retirees considering Southeast Asia
+reading_level: B1 German-friendly English
+language: en

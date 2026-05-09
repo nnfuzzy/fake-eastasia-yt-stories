@@ -1,0 +1,23 @@
+protagonist:
+  name: Petra Hofmann
+  age: 54
+  gender: female
+  origin_country: Austria
+  origin_region: Vienna
+  occupation: tax advisor
+  trigger_event: burnout after pandemic + divorce; chose Lisbon for the NHR tax break
+  financials: "€2,400/month freelance income + €180k savings"
+  languages: [German, English, basic Portuguese]
+
+journey:
+  target_country: Portugal
+  target_city: Lisbon
+  duration_years: 3
+  arrival_year: 2022
+  outcome: stayed
+  net_cost_or_gain: "+€20,000"
+  currency: EUR
+
+audience: DACH professionals 45-60 considering Southern Europe
+reading_level: B1 German-friendly English
+language: en

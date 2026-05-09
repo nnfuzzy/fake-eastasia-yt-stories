@@ -1,0 +1,23 @@
+protagonist:
+  name: Jonas Albrecht
+  age: 38
+  gender: male
+  origin_country: Germany
+  origin_region: Berlin
+  occupation: senior software engineer (remote, US fintech)
+  trigger_event: burnt out after 12 years in Berlin tech; chased the digital-nomad dream after a startup IPO unlock
+  financials: "$11,500/month net remote salary + €140k savings + €60k in vested RSUs"
+  languages: [German, English, basic Indonesian]
+
+journey:
+  target_country: Indonesia
+  target_city: Canggu, Bali
+  duration_years: 4
+  arrival_year: 2022
+  outcome: stayed
+  net_cost_or_gain: "+€85,000 (vs. staying in Berlin)"
+  currency: EUR
+
+audience: DACH knowledge workers 30-45 considering long-term remote life in Southeast Asia
+reading_level: B2 English, tech-literate
+language: en
