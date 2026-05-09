@@ -25,6 +25,17 @@ Stack: **Deno 2 + Genkit + Gemini** (text + multi-speaker TTS). CLI-first.
 
 ---
 
+## Two ways to run it
+
+| Want… | Use |
+|---|---|
+| Batch generation, audio output, scenario YAMLs in version control, custom voices, scriptable | **The Deno CLI** in this repo (rest of this README) |
+| One-shot stories from inside Claude Desktop / Claude.ai, no install, no API key, conversational parameter collection | **The Claude Skill** at [`skills/expat-story.skill`](skills/expat-story.skill) — drag into Claude Desktop's skill manager, then ask Claude for a story. Source: [`skills/SKILL.md`](skills/SKILL.md). |
+
+Both share the same prompt template and output shape. Pick whichever matches the workflow.
+
+---
+
 ## How to Deno (60 seconds, if it's new)
 
 Deno is a JS/TS runtime that ships TypeScript natively, has no `package.json`
