@@ -36,40 +36,21 @@ Both share the same prompt template and output shape. Pick whichever matches the
 
 ---
 
-## Use it inside Claude (no terminal needed)
+## Use it inside Claude (no terminal needed, ~60 seconds)
 
-> ⚠️ **Heads-up:** As of May 2026, Claude Desktop and Claude.ai do **not** have a
-> "drag-in-a-`.skill`-file" button. The `.skill` ZIP archive in this repo is for
-> Claude Code CLI users only. For everyone else, the easiest path is below.
-
-### Option A — Claude.ai Project (easiest, ~60 seconds, no terminal)
-
-This works on **claude.ai in your browser** with any paid plan:
+This works on **claude.ai in your browser** with any paid plan. No install, no
+file download, no command line.
 
 1. Open https://github.com/nnfuzzy/fake-eastasia-yt-stories/blob/main/skills/SKILL.md
-2. On that page, click the **"Copy raw file"** button (top-right, looks like two stacked rectangles).
+2. On that page, click the **"Copy raw file"** button (top-right of the file view — two stacked rectangles icon).
 3. Go to **claude.ai** → click **Projects** in the left sidebar → **Create project**.
 4. Give it a name like **"Expat Stories"**, click create.
-5. In the project, look for **"Project instructions"** (or **"Custom instructions"** depending on your plan) — paste the SKILL.md content you copied, then save.
-6. Click **"Start new chat"** inside that project. Type something like:
+5. After the project opens, look on the **right side** of the project page for the **"Instructions"** field — paste the SKILL.md content you copied and save.
+6. Start a new chat inside the project. Type something like:
    > *Generate one — Werner, 67, German, Thailand, returned after 6 years.*
-7. Claude will read your project instructions and produce the full story.
+7. Claude reads the project instructions and produces the full story in the chat.
 
-That's it. Re-use the project for any future story; just start a new chat.
-
-### Option B — Claude Code CLI (one terminal command, for developers)
-
-```bash
-mkdir -p ~/.claude/skills/expat-story && \
-  curl -fsSL https://raw.githubusercontent.com/nnfuzzy/fake-eastasia-yt-stories/main/skills/SKILL.md \
-  -o ~/.claude/skills/expat-story/SKILL.md
-```
-
-Restart Claude Code (or run `/skills`). Now in any Claude Code session, just ask for a story — the skill activates automatically when the description matches.
-
-### Option C — Single-shot copy/paste (no Project, works everywhere)
-
-If you don't want a Project, you can paste the SKILL.md content into the **first message** of any Claude conversation (anywhere — claude.ai chat, Claude Desktop, Claude Code) and then ask for a story in the next turn. The skill instructions stay in the conversation context.
+Re-use the same project for every future story — just start another chat.
 
 ---
 
