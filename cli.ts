@@ -8,13 +8,23 @@ import { generateStory } from './src/flows/generateStory.ts';
 import { synthesizeAudio } from './src/flows/synthesizeAudio.ts';
 import { DEFAULT_WPM, recomputeTimestamps, renderMarkdown } from './src/render.ts';
 
+const DURATION_PRESETS = {
+  demo: { words: 400, problems: 3 },
+  short: { words: 1200, problems: 6 },
+  medium: { words: 2500, problems: 10 },
+  long: { words: 4000, problems: 14 },
+} as const;
+type DurationKey = keyof typeof DURATION_PRESETS;
+
 const HELP = `Usage:
-  deno task story --scenario <path.yaml> [--words 4000] [--problems 12] [--audio] [--premium] [--out out/]
+  deno task story --scenario <path.yaml> [--duration medium] [--audio] [--premium] [--out out/]
 
 Flags:
   --scenario <path>   YAML scenario file (required)
-  --words <n>         Target word count (default 2500)
-  --problems <n>      Number of friction chapters (default 10)
+  --duration <preset> demo (400w/3 frictions), short (1200/6), medium (2500/10), long (4000/14)
+                        — default: medium
+  --words <n>         Override word count (otherwise derived from --duration)
+  --problems <n>      Override friction-chapter count
   --audio             Also generate WAV via multi-speaker TTS
   --premium           Use the slower, higher-reasoning model
   --out <dir>         Output directory (default ./out)
@@ -29,11 +39,10 @@ async function main() {
   // Tolerate `deno task story -- --foo` as well as `deno task story --foo`
   const argv = Deno.args.filter((a) => a !== '--');
   const flags = parseArgs(argv, {
-    string: ['scenario', 'words', 'problems', 'out', 'video-id', 'wpm'],
+    string: ['scenario', 'duration', 'words', 'problems', 'out', 'video-id', 'wpm'],
     boolean: ['audio', 'premium', 'help'],
     default: {
-      words: '2500',
-      problems: '10',
+      duration: 'medium',
       out: './out',
       'video-id': 'PLACEHOLDER',
       wpm: String(DEFAULT_WPM),
@@ -49,16 +58,29 @@ async function main() {
     Deno.exit(1);
   }
 
+  if (!(flags.duration in DURATION_PRESETS)) {
+    console.error(
+      `Unknown --duration "${flags.duration}". Valid: ${Object.keys(DURATION_PRESETS).join(', ')}`,
+    );
+    Deno.exit(1);
+  }
+  const preset = DURATION_PRESETS[flags.duration as DurationKey];
+  const wordCount = flags.words ? Number(flags.words) : preset.words;
+  const numProblems = flags.problems ? Number(flags.problems) : preset.problems;
+
   const yaml = parseYaml(await Deno.readTextFile(flags.scenario));
   const scenario = ScenarioSchema.parse(yaml);
   const slug = basename(flags.scenario).replace(/\.(ya?ml)$/i, '');
 
   const wpm = Number(flags.wpm);
-  console.log(`generating story for ${scenario.protagonist.name} (${slug})...`);
+  console.log(
+    `generating story for ${scenario.protagonist.name} (${slug}) ` +
+      `[duration=${flags.duration}, ${wordCount}w/${numProblems} frictions]...`,
+  );
   const raw = await generateStory({
     scenario,
-    wordCount: Number(flags.words),
-    numProblems: Number(flags.problems),
+    wordCount,
+    numProblems,
     audioMode: flags.audio,
     premium: flags.premium,
     wordsPerMinute: wpm,

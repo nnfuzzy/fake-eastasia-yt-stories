@@ -145,13 +145,20 @@ of the story (cautionary vs. mixed vs. negotiated).
 | Flag | Default | Effect |
 |---|---|---|
 | `--scenario <path>` | required | YAML file to load |
-| `--words <n>` | 2500 | target word count |
-| `--problems <n>` | 10 | how many friction chapters |
+| `--duration <preset>` | `medium` | `demo` (400w/3) · `short` (1200/6) · `medium` (2500/10) · `long` (4000/14) |
+| `--words <n>` | derived | override word count |
+| `--problems <n>` | derived | override friction-chapter count |
 | `--audio` | off | also synthesize a multi-speaker WAV |
 | `--premium` | off | use deeper-reasoning model with `thinkingLevel: HIGH` |
 | `--out <dir>` | `./out` | output directory |
 | `--video-id <id>` | `PLACEHOLDER` | YouTube id used in chapter timestamp links |
 | `--wpm <n>` | 150 | words per minute for timestamp recompute |
+
+**Quick demo** (~30 second LLM call, ~3-min read):
+
+```bash
+deno task story --scenario scenarios/werner-thailand.yaml --duration demo
+```
 
 ---
 

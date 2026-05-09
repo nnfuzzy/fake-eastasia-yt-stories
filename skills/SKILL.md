@@ -42,8 +42,19 @@ When the user asks for an expat retrospective story:
    defaults in one short line ("I'll assume Bavaria, retired engineer, widowed in 2019,
    €1,800/month pension + €290k house sale, EUR — proceed?") and continue if the user accepts
    or stays silent.
-2. **Pick length.** Default `word_count = 2500`, `num_problems = 10`. Use 4000 / 14 for
-   long-form, 1200 / 6 for short. The user can override.
+2. **Pick length.** The user can specify a `duration` preset, or pass
+   `word_count` / `num_problems` directly. Presets:
+
+   | `duration` | `word_count` | `num_problems` | Reads in (~150 wpm) |
+   |---|---|---|---|
+   | `demo` | 400 | 3 | ~3 min |
+   | `short` | 1200 | 6 | ~8 min |
+   | `medium` *(default)* | 2500 | 10 | ~17 min |
+   | `long` | 4000 | 14 | ~27 min |
+
+   If the user says "quick demo", "tldr", "short version", "30-second version",
+   or "just show me", default to `duration: demo`. Explicit `word_count` /
+   `num_problems` values always override the preset.
 3. **Pick language.** Default English. Switch to German if the user specifies, the protagonist
    is from a German-speaking country, or the audience is DACH.
 4. **Generate the story** as Markdown directly in your reply (no tool calls, no code, no
@@ -82,8 +93,9 @@ When the user asks for an expat retrospective story:
 | `currency` | derive from origin | "EUR", "USD", "GBP" |
 | `audience` | no | "DACH retirees considering Southeast Asia" |
 | `language` | no — default `en` | `en` / `de` |
-| `word_count` | no — default 2500 | 1200–4000 |
-| `num_problems` | no — default 10 | 6–15 |
+| `duration` | no — default `medium` | `demo` / `short` / `medium` / `long` |
+| `word_count` | derived from `duration` | 400–4000 (override) |
+| `num_problems` | derived from `duration` | 3–14 (override) |
 
 The single most important knob is `outcome` — it flips the moral arc of the story:
 
@@ -174,19 +186,39 @@ Notes:
 
 ---
 
-## Worked example (parameter shorthand → invocation)
+## Worked examples
+
+### Long-form
 
 User says:
-> "Generate one — Werner, 67, German, Thailand, returned after 6 years."
+> *"Generate one — Werner, 67, German, Thailand, returned after 6 years."*
 
 You should:
 
 1. **Confirm inferred defaults briefly:**
    "I'll fill in: Bavaria, retired mechanical engineer, widowed in 2018, €1,800/month pension
-   + €290k from selling the house, currency EUR, 12 frictions, 3000 words, English. Proceed?"
-2. **Generate** the full ~3000-word story in the format above on the next turn (or immediately
+   + €290k from selling the house, EUR, `duration: medium` (2500 words / 10 frictions),
+   English. Proceed?"
+2. **Generate** the full ~2500-word story in the format above on the next turn (or immediately
    if the user said "just go").
 3. **Mark stats** with `[STAT-NEEDED]` rather than inventing exchange-rate or insurance numbers.
+
+### Quick demo
+
+User says:
+> *"Quick demo — Petra, Austrian tax advisor, Lisbon, stayed."*
+
+You should:
+
+1. **Pick `duration: demo` automatically** (because of "quick demo"). That means ~400 words /
+   3 frictions. Skip the parameter-confirmation back-and-forth — just announce the assumed
+   defaults in one line and generate immediately.
+2. **Pick the 3 most plausible frictions** from the taxonomy for an Austrian in Lisbon:
+   bureaucracy, two-tier pricing, language barrier — *not* over-70s healthcare or romance
+   asymmetry.
+3. **Hook**: 1 short paragraph (60–100 words). **Chapters**: 3 frictions + 1 turning point +
+   1 resolution = 5 chapters total. **Advice**: 3 rules. The whole reply should be readable
+   in under 3 minutes.
 
 ---
 
